@@ -6,15 +6,24 @@ function App() {
   const [people, setPeople] = useState(data);
   const [index, setIndex] = useState(0);
 
-useEffect(() => {
-  const lastIndex = people.length -1;
-  if(index< 0){
-    setIndex(lastIndex);
-  }
-  if(index > lastIndex){
-    setIndex(0)
-  }
-},[index,people])
+const prevSlide = ()=>{
+    setIndex((oldIndex) => {
+        let i = oldIndex - 1
+        if(i<0){
+            i  = people.length  - 1;
+        }
+        return i;
+    })
+}
+const nextSlide = ()=>{
+    setIndex((oldIndex) => {
+        let i = oldIndex + 1
+        if(i > people.length -1){
+            i  = 0;
+        }
+        return i;
+    })
+}
 
 useEffect(() => {
   let slider = setInterval(()=>{
@@ -58,10 +67,10 @@ useEffect(() => {
               </article>
             );
           })}
-          <button className="prev" onClick={()=> setIndex(index-1)}>
+          <button className="prev" onClick={prevSlide}>
             <FiChevronLeft />
           </button>
-          <button className="next" onClick={()=> setIndex(index+1)}>
+          <button className="next" onClick={nextSlide}>
             <FiChevronRight />
           </button>
         </div>
